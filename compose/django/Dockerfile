@@ -8,7 +8,7 @@ ENV DB_ENGINE='mysql' \
     DB_NAME='youngtrip' \
     DB_USER='root' \
     DB_PASSWORD='w9jTwtNi1wm4Q3VPUfBecPWd' \
-    DB_HOST='db' \
+    DB_HOST='mysql' \
     DB_PORT='3306' \
     MEDIA_ROOT='/media/'
 

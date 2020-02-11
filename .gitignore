@@ -18,6 +18,7 @@ yarn-debug.log*
 yarn-error.log*
 
 settings.py
+*.htpasswd*
 
 # Editor directories and files
 .idea

@@ -7,7 +7,7 @@ from celery import Celery
 #　设置默认　celery命令行程序环境变量
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'youngtrip.settings')
 
-app = Celery('youngtrip', backend='redis://myredis:6379/0', broker='amqp://root:w9jTwtNi1wm4Q3VPUfBecPWd@myrabbit:5672//')
+app = Celery('youngtrip', backend='redis://:w9jTwtNi1wm4Q3VPUfBecPWd@redis:6379/0', broker='amqp://root:w9jTwtNi1wm4Q3VPUfBecPWd@rabbit:5672//')
 
 app.config_from_object('django.conf:settings', namespace='CELERY')
 

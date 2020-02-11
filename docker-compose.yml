@@ -1,29 +1,26 @@
 version: "3"
 
 services:
-
-  myrabbit:
+  rabbit:
     image: rabbitmq:3.8.2-management
     environment:
       - RABBITMQ_DEFAULT_USER=root      
       - RABBITMQ_DEFAULT_PASS=w9jTwtNi1wm4Q3VPUfBecPWd
-    # ports: #暂时使用
-    #   - "15672:15672"
     expose:
         - "5672"   
         - "15672"     #控制版面nginx代理访问
     restart: always   #always表容器运行发生错误时一直重启
 
-  myredis:
+  redis:
     image: redis:latest
-    command: redis-server
+    command: redis-server --requirepass w9jTwtNi1wm4Q3VPUfBecPWd
     volumes:
       - ./compose/redis:/data
     ports:
       - "6379:6379"
     restart: always 
 
-  db:
+  mysql:
     image: mysql:5.7
     environment:
       - MYSQL_DATABASE=youngtrip                     # 数据库名称
@@ -40,7 +37,6 @@ services:
     build: ./compose/django
     ports:
       - "8000:8000"   
-      # - "5555:5555" #暂时使用
     expose:
       - "5672"   
       - "5555"   
@@ -49,14 +45,26 @@ services:
       - ./src:/app   # - /tmp/logs:/tmp
     command: bash ./start.sh
     links:
-      - myrabbit
-      - db
-      - myredis
+      - rabbit
+      - mysql
+      - redis
     depends_on:     #先后启动顺序，DJango依赖于db和redis
-      - myrabbit
-      - db
-      - myredis
+      - rabbit
+      - mysql
+      - redis
     restart: always
+  
+  cadvisor:
+    image:  google/cadvisor:latest
+    expose: 
+      - "8080"
+    volumes: 
+      - '/:/rootfs:ro'
+      - '/var/run:/var/run:ro'
+      - '/sys:/sys:ro'
+      - '/var/lib/docker/:/var/lib/docker:ro'
+      - '/dev/disk/:/dev/disk:ro'
+    restart: always 
 
   nginx:
     build: ./compose/nginx
@@ -65,18 +73,22 @@ services:
       - "443:443"
       - "15672:15672"
       - "5555:5555"
+      - "8080:8080"
     expose:
       - "8000"
       - "15672"
       - "5555"
+      - "8080"
     volumes:
       - ./src/static:/usr/share/nginx/html/static     # 挂载静态文件
       - ./src/media:/usr/share/nginx/html/media       # 挂载上传文件
       - ./compose/nginx/ssl:/usr/share/nginx/ssl   # 挂载ssl证书目录
     links:
-      - myrabbit
+      - rabbit
       - web
+      - cadvisor
     depends_on:
-      - myrabbit
+      - rabbit
       - web
+      - cadvisor
     restart: always

@@ -16,4 +16,5 @@ python manage.py migrate&&
 gunicorn -D youngtrip.wsgi:application -w 2 -b 0.0.0.0:8000 -k gevent &&
 #gunicorn youngtrip.wsgi:application -c gunicorn.conf
 #python manage.py runserver 0.0.0.0:8000
-celery  flower -A youngtrip --basic_auth=root:w9jTwtNi1wm4Q3VPUfBecPWd --broker=amqp://root:w9jTwtNi1wm4Q3VPUfBecPWd@myrabbit:5672// --address=0.0.0.0  -port=5555
+#celery  flower -A youngtrip --basic_auth=root:w9jTwtNi1wm4Q3VPUfBecPWd --broker=amqp://root:w9jTwtNi1wm4Q3VPUfBecPWd@rabbit:5672// --address=0.0.0.0  -port=5555
+celery  flower -A youngtrip --broker=amqp://root:w9jTwtNi1wm4Q3VPUfBecPWd@rabbit:5672// --address=0.0.0.0  -port=5555
