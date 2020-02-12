@@ -43,7 +43,7 @@ services:
       - "8000"
     volumes: 
       - ./src:/app   # - /tmp/logs:/tmp
-    command: bash ./start.sh
+    command:  bash  ./start.sh
     links:
       - rabbit
       - mysql
@@ -53,6 +53,24 @@ services:
       - mysql
       - redis
     restart: always
+
+  celery:
+    build: ./compose/django
+    volumes: 
+      - ./src:/app   # - /tmp/logs:/tmp
+    command:  bash  ./celery.sh
+    links:
+      - rabbit
+      - redis
+      - mysql
+      - web
+    depends_on:     #先后启动顺序，DJango依赖于db和redis
+      - rabbit
+      - redis
+      - mysql
+      - web
+    restart: always
+
   
   cadvisor:
     image:  google/cadvisor:latest

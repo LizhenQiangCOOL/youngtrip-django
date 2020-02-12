@@ -1,5 +1,8 @@
 # youngtrip　后端API
 
+## 前端项目地址
+https://github.com/LizhenQiangCOOL/youngtrip
+
 ## 技术栈
 Django + DRF + celery+ mysql + redis + rabbitmq
 

@@ -25,7 +25,7 @@ psycopg2==2.8.4
 
 # celery   分布式任务队列 4.0以上在Django不用依赖其他库
 # django-celery-results 任务结果支持DjangoORM
-# django-celery-beat 定时任务
+# django-celery-beat 定时任务支持DjangoORM
 # flower　　任务监控
 celery==4.4.0
 django-celery-results==1.1.2

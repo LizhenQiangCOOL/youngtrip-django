@@ -18,6 +18,8 @@ yarn-debug.log*
 yarn-error.log*
 
 settings.py
+product.py
+develop.py
 *.htpasswd*
 
 # Editor directories and files
