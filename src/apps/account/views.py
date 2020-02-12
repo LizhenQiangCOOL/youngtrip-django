@@ -1,5 +1,6 @@
 import random
-
+from django.shortcuts import render
+from django.views import View
 from django.core.cache import cache 
 from django.contrib.auth.models import User
 from django.db.models import Q
@@ -115,7 +116,6 @@ class RegisterViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
             }
         }, status=200)
 
-
 class UserProfileViewSet(mixins.UpdateModelMixin, mixins.RetrieveModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet):
 
     authentication_classes = (JSONWebTokenAuthentication, )
@@ -181,7 +181,6 @@ class UserProfileViewSet(mixins.UpdateModelMixin, mixins.RetrieveModelMixin, mix
             }
         }, status=200)
 
-
 class EmailCodeSendViewSet(viewsets.ViewSet):
     """
     　邮箱验证码发送, 参数：email='xxx@xx.com'
@@ -239,3 +238,16 @@ class EmailEnsureViewSet(viewsets.ViewSet):
                 'userinfo': serializer.data
             }
         }, status=200)
+
+
+
+class IndexView(View):
+    template_name = "index.html"
+
+    def get(self, request):
+        context = {
+            'title': '个人网站',
+            'beianId': '粤ICP备18100977号',
+            'beiana':'http://www.beian.miit.gov.cn'
+        }
+        return render(request, self.template_name, context=context)

@@ -21,8 +21,10 @@ from rest_framework.documentation import include_docs_urls
 from django.views.decorators.csrf import csrf_protect  
 from youngtrip import settings
 
+from apps.account.views import IndexView
 
 urlpatterns = [
+    path('', IndexView.as_view(), name='index'),
     path('admin/', admin.site.urls),
     path('api/account/', include('apps.account.urls')),
     path('api/', include('apps.card.urls')),
@@ -33,6 +35,5 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns.append(path('api-auth/', include('rest_framework.urls', namespace='rest_framework')))
     urlpatterns.append(path('docs/', include_docs_urls(title='API文档')))
-
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
