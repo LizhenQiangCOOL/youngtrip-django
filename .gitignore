@@ -21,6 +21,8 @@ settings.py
 product.py
 develop.py
 *.htpasswd*
+young*.sql
+celerybeat-schedule
 
 # Editor directories and files
 .idea

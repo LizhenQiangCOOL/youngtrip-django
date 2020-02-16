@@ -25,10 +25,10 @@ class CreateUserSerializer(serializers.ModelSerializer):
         'input_type': 'password'
     }, help_text='密码')
     code = serializers.CharField(max_length=7, required=True, help_text='验证码')
-    avator = serializers.CharField(max_length=100, required=True, help_text='头像')
+    avatar = serializers.CharField(max_length=100, required=True, help_text='头像')
     class Meta:
         model = User
-        fields = ('username', 'email', 'code', 'password', 'avator')
+        fields = ('username', 'email', 'code', 'password', 'avatar')
 
 
 class UpdateUserProfileSerializer(serializers.ModelSerializer):

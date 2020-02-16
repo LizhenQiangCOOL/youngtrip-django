@@ -73,7 +73,7 @@ class RegisterViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         email = self.request.data.get('email', None)
         code = self.request.data.get('code', None)
         avatar = self.request.data.get('avatar', None)
-
+        
         if not(username and password and email and avatar):
             return Response({
                 'msg':'字段填写不全'
@@ -86,6 +86,7 @@ class RegisterViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
             return Response({
                 'msg':'该邮箱已被占用'
             }, status=400)
+
         rediscode = cache.get(email)
         if rediscode is None:
             return Response({
@@ -95,6 +96,7 @@ class RegisterViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
             return Response({
                 'msg':'验证码不正确'
             }, status=400)
+
         user = User.objects.create(
             username=username,
             email=email,
@@ -245,9 +247,15 @@ class IndexView(View):
     template_name = "index.html"
 
     def get(self, request):
+        try:
+            ip = self.request.META['HTTP_X_FORWARDED_FOR']
+        except Exception as identifier:
+            ip = '未知'
         context = {
             'title': '个人网站',
             'beianId': '粤ICP备18100977号',
-            'beiana':'http://www.beian.miit.gov.cn'
+            'beiana':'http://www.beian.miit.gov.cn',
+            'ip':ip
         }
         return render(request, self.template_name, context=context)
+
