@@ -23,6 +23,7 @@ develop.py
 *.htpasswd*
 young*.sql
 celerybeat-schedule
+dump.rdb
 
 # Editor directories and files
 .idea
