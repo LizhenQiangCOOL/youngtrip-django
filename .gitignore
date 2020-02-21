@@ -24,6 +24,7 @@ develop.py
 young*.sql
 celerybeat-schedule
 dump.rdb
+worker*.log
 
 # Editor directories and files
 .idea
