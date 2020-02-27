@@ -7,6 +7,5 @@ class StandardPermission(permissions.BasePermission):
     """    
     def has_permission(self, request, view):
         if view.action in ('create', 'update', 'partial_update', 'destroy'):
-            print(bool(request.user and request.user.is_authenticated))
             return bool(request.user and request.user.is_authenticated)
         return True
