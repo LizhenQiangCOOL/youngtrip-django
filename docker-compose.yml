@@ -34,9 +34,7 @@ services:
     restart: always
 
   web:
-    build: ./compose/django
-    ports:
-      - "8000:8000"   
+    build: ./compose/django 
     expose:
       - "5672"   
       - "5555"   
@@ -100,7 +98,7 @@ services:
     volumes:
       - ./src/static:/usr/share/nginx/html/static     # 挂载静态文件
       - ./src/media:/usr/share/nginx/html/media       # 挂载上传文件
-      - ./compose/nginx/ssl:/usr/share/nginx/ssl   # 挂载ssl证书目录
+      - ./compose/nginx/ssl:/usr/share/nginx/ssl      # 挂载ssl证书目录
     links:
       - rabbit
       - web
