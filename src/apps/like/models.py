@@ -5,7 +5,7 @@ from apps.card.models import Card
 
 class Like(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE, related_name='card_like', verbose_name='关联Userprofile')
-    userprofile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='userprofle_like', verbose_name='关联游记卡片')
+    userprofile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='userprofile_like', verbose_name='关联游记卡片')
     
     def __str__(self):
         return '<Like:{}>'.format(self.id)

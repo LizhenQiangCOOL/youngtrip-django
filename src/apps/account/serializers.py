@@ -4,6 +4,16 @@ from rest_framework.validators import UniqueValidator
 
 from apps.account.models import UserProfile
 
+class ReCardUserSerializer(serializers.ModelSerializer):
+    username = serializers.SerializerMethodField()
+
+    def get_username(self, obj):
+        return obj.user.username if obj.user.username else ''
+
+    class Meta:
+        model = UserProfile
+        fields = ('id', 'username', 'avatar')
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -43,21 +53,27 @@ class UpdateUserProfileSerializer(serializers.ModelSerializer):
         fields = ('username', 'password', 'email', 'avatar', 'sex', 'sign')
 
 
+from apps.card.serializers import ReCardSerializer
 class UserProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer()
 
+    cards = serializers.SerializerMethodField()
+    followerNum = serializers.SerializerMethodField()
+    followeeNum = serializers.SerializerMethodField()
+
+    def get_cards(self, obj):
+        return  ReCardSerializer(obj.userprofle_card.all(), many=True).data
+
+    def get_followerNum(self, obj):
+        return obj.userprofile_follower.count()
+
+    def get_followeeNum(self, obj):
+        return obj.userprofile_followee.count()
+
     class Meta:
         model = UserProfile
-        fields = ('id', 'user', 'avatar', 'sex', 'sign')
+        fields = ('id', 'user', 'avatar', 'sex', 'sign', 'cards', 'followerNum', 'followeeNum')
 
 
-class ReCardUserSerializer(serializers.ModelSerializer):
-    username = serializers.SerializerMethodField()
 
-    def get_username(self, obj):
-        return obj.user.username if obj.user.username else ''
 
-    class Meta:
-        model = UserProfile
-        fields = ('id', 'username', 'avatar')
-    
