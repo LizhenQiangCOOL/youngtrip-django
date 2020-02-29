@@ -12,7 +12,7 @@ from rest_framework_jwt.settings import api_settings
 
 from apps.account.models import UserProfile
 from apps.account.serializers import LoginSerializer, CreateUserSerializer, UpdateUserProfileSerializer, \
-    UserProfileSerializer
+    UserProfileSerializer, FollowUserSerializer
 from apps.account.tasks import sendemail
 from apps.util.page import StandardPagination
 from apps.util.permission import StandardPermission
@@ -242,6 +242,37 @@ class EmailEnsureViewSet(viewsets.ViewSet):
         }, status=200)
 
 
+class UserFollowViewSet(viewsets.ViewSet):
+    """
+    　获取用户的follow中　follower 或followee
+    """    
+    def list(self, request, *args, **kwargs):
+        id = self.request.query_params.get('id', None)
+        follow = self.request.query_params.get('follow', None)
+        if not(id or follow):
+            return Response({
+                'msg':'缺参数'
+            }, status=400)
+        userprofile = UserProfile.objects.filter(id=id).first()
+        if not userprofile:
+            return Response({
+                'msg': '无此用户'
+            }, status=400)
+        
+        follow = True if follow=='true' else False
+        if follow is True:
+            data = userprofile.userprofile_follower.all().select_related('follower')
+            data = (fl.follower for fl in data)
+        else:
+            data = userprofile.userprofile_followee.all().select_related('followee')
+            data = (fl.followee for fl in data)
+
+        
+        serializer = FollowUserSerializer(data, many=True)
+        return Response({
+            'msg': 'follower获取成功',
+            'data': serializer.data
+        }, status=200)
 
 class IndexView(View):
     template_name = "index.html"

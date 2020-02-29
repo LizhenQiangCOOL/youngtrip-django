@@ -14,6 +14,13 @@ class ReCardUserSerializer(serializers.ModelSerializer):
         model = UserProfile
         fields = ('id', 'username', 'avatar')
 
+class FollowUserSerializer(ReCardUserSerializer):
+
+    class Meta:
+        model = UserProfile
+        fields = ('id', 'username', 'avatar', 'sign')
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -54,6 +61,7 @@ class UpdateUserProfileSerializer(serializers.ModelSerializer):
 
 
 from apps.card.serializers import ReCardSerializer
+
 class UserProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer()
 

@@ -39,9 +39,8 @@ class FansViewset(mixins.CreateModelMixin,mixins.ListModelMixin, \
             return Response({
                 'msg':'不要关注自己'
             }, status=400)
-        print(follower)
+
         follower = UserProfile.objects.filter(id=follower).first()
-        print(followee)
         if not follower:
             return Response({
                 'msg': '无follower用户'
