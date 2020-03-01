@@ -1,0 +1,55 @@
+import os
+import subprocess
+from fabric import Connection
+from invoke import Responder
+import invoke
+
+server = (
+)
+ali_conn 
+
+#推文件
+# hostwind_conn.put('mysql-rc.yaml', '/home/tly/mysql-rc.yaml')
+
+BasePath = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+def zip_youngtrip_django():
+    os.chdir(BasePath)
+    invoke.run('rm -fv youngtrip.zip')
+    s = subprocess.Popen("echo 'password' | sudo -S zip -r youngtrip.zip youngtrip-django", stdout=subprocess.PIPE, stdin=subprocess.PIPE, shell=True)
+    out = s.stdout.read().decode("GBK")
+    s.stdout.close()
+    print(out)
+
+def upload_youngtrip_django(uploadpath='/root/'):
+    nginxpath = os.path.join(uploadpath, 'youngtrip-django', 'compose', 'nginx') 
+    ali_conn.put(os.path.join(BasePath, 'youngtrip.zip'), os.path.join(uploadpath, 'youngtrip.zip'))
+
+    with ali_conn.cd(uploadpath):
+        ali_conn.run('unzip youngtrip.zip')
+    with ali_conn.cd(nginxpath):
+        ali_conn.run('rm -rfv nginx.conf')
+        ali_conn.run('mv -v ./nginx.conf.pro nginx.conf')
+    
+    #run code
+    with ali_conn.cd(os.path.join(uploadpath, 'youngtrip-django')):
+        ali_conn.run('docker-compose build --no-cache')
+        ali_conn.run('docker-compose up -d')
+
+def vue_build_and_update(path='/media/lzq/_dde_data4/code/vue/youngtrip'):
+    os.chdir(path)
+    # nvm.sh运行问题
+    subprocess.call(['/bin/bash', '-i', '-c', 'nvm use 12.14.0'])
+    invoke.run('npm run build')
+    invoke.run('git add .')
+    invoke.run('git commit -m"npm run build"')
+    invoke.run('git push')
+
+if __name__ == "__main__":
+    zip_youngtrip_django()
+    upload_youngtrip_django(uploadpath='/root/test')
+    vue_build_and_update()
+    pass
+
+    
+
