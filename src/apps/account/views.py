@@ -226,6 +226,7 @@ class EmailEnsureViewSet(viewsets.ViewSet):
             return Response({
                 'msg':'验证码不正确'
             }, status=400)
+        
         if not User.objects.filter(email=email).exists():
             return Response({
                 'msg':'用户不存在'

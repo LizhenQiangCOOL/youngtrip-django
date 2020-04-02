@@ -31,6 +31,7 @@ urlpatterns = [
     path('api/', include('apps.comment.urls')),
     path('api/', include('apps.like.urls')),
     path('api/', include('apps.fans.urls')),
+    path('api/', include('apps.file.urls')),
 ]
 
 if settings.DEBUG:

@@ -40,7 +40,7 @@ class CardViewSet(viewsets.ModelViewSet):
         date = self.request.data.get('date', None)
         location = self.request.data.get('location', None)
 
-        if not (userprofile or title or pic or pic or content or date or location):
+        if not (userprofile or title  or pic or content or date or location):
             return Response({
                 'msg':'缺参数'
             }, status=400)
@@ -49,12 +49,6 @@ class CardViewSet(viewsets.ModelViewSet):
             return Response({
                 'msg':'用户不存在'
                 }, status=400) 
-
-        content_type = ['image/png', 'image/jpeg', 'image/jpg']
-        if pic.content_type not in content_type:
-            return Response({
-                    'msg':'图片上传格式错误，应该上传JPG/JEPG/PNG'
-                }, status=400)
 
         card = Card.objects.create(
             userprofile=userprofile,
