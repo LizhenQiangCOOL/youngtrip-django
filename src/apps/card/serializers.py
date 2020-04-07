@@ -15,6 +15,7 @@ class ReCardSerializer(serializers.ModelSerializer):
     userprofile = serializers.SerializerMethodField()
     likeUsers = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()
+    dateD = serializers.SerializerMethodField()
 
     def get_userprofile(self, obj):
         return ReCardUserSerializer(obj.userprofile).data
@@ -24,6 +25,9 @@ class ReCardSerializer(serializers.ModelSerializer):
     
     def get_comments(self, obj):
         return ListCommentSerializer(obj.card_comment.all(), many=True).data
+    
+    def get_dateD(self, obj):
+        return obj.date.date().strftime('%Y-%m-%d')
     class Meta:
         model = Card
-        fields = ('userprofile', 'id', 'title', 'pic', 'content', 'location', 'date', 'likeUsers', 'comments')
+        fields = ('userprofile', 'id', 'title', 'pic', 'content', 'location', 'date', 'dateD', 'likeUsers', 'comments')

@@ -11,6 +11,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from apps.account.models import UserProfile
 from apps.card.models import Card
 from apps.like.models import Like
+from apps.trip.models import Trip
 from apps.card.serializers import CardSerializer, ReCardSerializer
 from apps.util.page import StandardPagination
 from apps.util.permission import StandardPermission
@@ -33,39 +34,41 @@ class CardViewSet(viewsets.ModelViewSet):
             return CardSerializer
 
     def create(self, request, *args, **kwargs):
-        userprofile = int(self.request.data.get('userprofile', None))
-        title = self.request.data.get('title', None)
+        userprofile = self.request.user.user_userprofile
+        # title = self.request.data.get('title', None)
+        trip = int(self.request.data.get('trip', None))
         pic = self.request.data.get('pic', None)
         content = self.request.data.get('content', None)
         date = self.request.data.get('date', None)
         location = self.request.data.get('location', None)
 
-        if not (userprofile or title  or pic or content or date or location):
+        if not (userprofile or trip  or pic or content or date or location):
             return Response({
                 'msg':'缺参数'
             }, status=400)
-        userprofile = UserProfile.objects.filter(id=userprofile).first()
-        if not userprofile:
+        
+        trip = Trip.objects.filter(id=trip).first()
+        if trip == None:
             return Response({
-                'msg':'用户不存在'
-                }, status=400) 
+                'msg': '错误操作'
+            }, status=400)
 
         card = Card.objects.create(
             userprofile=userprofile,
-            title=title,
+            trip=trip,
             pic=pic,
             content=content,
             date=date,
             location=location,
         )
         return Response({
-            'msg':'游记创建成功',
-            'data':{'id':card.id},
+            'msg':'游记卡片创建成功',
+            'data':{'id':card.id, 'pic':card.pic},
         }, status=200)
     
     def update(self, request, *args, **kwargs):
-        user = self.request.user
-        title = self.request.data.get('title', None)
+        user = self.request.user.user_userprofile
+        # title = self.request.data.get('title', None)
         pic = self.request.data.get('pic', None)
         content = self.request.data.get('content', None)
         date = self.request.data.get('date', None)
@@ -78,8 +81,8 @@ class CardViewSet(viewsets.ModelViewSet):
                 'msg':'错误操作',
             }, status=400)
 
-        if title:
-            instance.title = title
+        # if title:
+        #     instance.title = title
         if pic:
             instance.pic = pic
         if content:
@@ -91,7 +94,7 @@ class CardViewSet(viewsets.ModelViewSet):
         instance.save()
 
         return Response({
-            'msg':'游记修改成功',
+            'msg':'游记卡片修改成功',
         }, status=200)    
 
     def delete(self, request, *args, **kwargs):
@@ -104,7 +107,7 @@ class CardViewSet(viewsets.ModelViewSet):
 
         instance.delete()
         return Response({
-            'msg':'游记删除成功'
+            'msg':'游记卡片删除成功'
         }, status=200)
 
 
