@@ -23,5 +23,5 @@ class ReTripSerializer(serializers.ModelSerializer):
      
     class Meta:
         model = Trip
-        fields = ('userprofile', 'id', 'title', 'pic', 'likecount', 'commentcount', 'cards')
+        fields = ('userprofile', 'id', 'title', 'pic', 'firstday', 'location', 'likecount', 'commentcount', 'cards')
 

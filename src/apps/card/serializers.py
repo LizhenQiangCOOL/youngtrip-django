@@ -30,4 +30,4 @@ class ReCardSerializer(serializers.ModelSerializer):
         return obj.date.date().strftime('%Y-%m-%d')
     class Meta:
         model = Card
-        fields = ('userprofile', 'id', 'title', 'pic', 'content', 'location', 'date', 'dateD', 'likeUsers', 'comments')
+        fields = ('userprofile', 'id', 'pic', 'content', 'location', 'date', 'dateD', 'likeUsers', 'comments')

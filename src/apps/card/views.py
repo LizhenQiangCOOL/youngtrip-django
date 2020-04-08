@@ -24,7 +24,7 @@ class CardViewSet(viewsets.ModelViewSet):
     pagination_class = StandardPagination
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ('userprofile', 'location')
-    search_fields = ('title', 'content', 'location')
+    search_fields = ('content', 'location')
 
 
     def get_serializer_class(self):

@@ -35,8 +35,10 @@ class TripViewSet(viewsets.ModelViewSet):
         userprofile = self.request.user.user_userprofile
         title = self.request.data.get('title', None)
         pic = self.request.data.get('pic', None)
+        firstday = self.request.data.get('firstday', None)
+        location = self.request.data.get('location', None)
 
-        if not (userprofile or title or pic):
+        if not (userprofile or title or pic or firstday or location):
             return Response({
                 'msg':'缺参数'
             }, status=400)
@@ -45,6 +47,8 @@ class TripViewSet(viewsets.ModelViewSet):
             userprofile=userprofile,
             title=title,
             pic=pic,
+            firstday=firstday,
+            location=location,
         )
         return Response({
             'msg':'游记创建成功',
@@ -56,6 +60,8 @@ class TripViewSet(viewsets.ModelViewSet):
         title = self.request.data.get('title', None)
         pic = self.request.data.get('pic', None)
         status = self.request.data.get('status', None)
+        firstday = self.request.data.get('firstday', None)
+        location = self.request.data.get('location', None)
 
         instance = self.get_object()
 
@@ -70,6 +76,10 @@ class TripViewSet(viewsets.ModelViewSet):
             instance.pic = pic
         if status:
             instance.status = status
+        if firstday:
+            instance.firstday = firstday
+        if location:
+            instance.location = location
         
         instance.save()
         
