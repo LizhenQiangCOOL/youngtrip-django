@@ -13,7 +13,7 @@ from rest_framework_jwt.settings import api_settings
 from apps.account.models import UserProfile
 from apps.account.serializers import LoginSerializer, CreateUserSerializer, UpdateUserProfileSerializer, \
     UserProfileSerializer, FollowUserSerializer
-from apps.account.tasks import sendemail
+from apps.account.tasks import sendemail, downloadavatar
 from apps.util.page import StandardPagination
 from apps.util.permission import StandardPermission
 
@@ -103,6 +103,13 @@ class RegisterViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         )
         user.set_password(password)
         user.save()
+
+
+        # downloadavatar.delay(avatar, username)
+        # host = self.request.get_host()
+        # print(host)
+        # fileurl = ''.join(('http://', host, '/media/', str(f.file)))
+
         userprofile = UserProfile.objects.create(
             avatar=avatar,
             user=user,
@@ -231,6 +238,7 @@ class EmailEnsureViewSet(viewsets.ViewSet):
             return Response({
                 'msg':'用户不存在'
             }, status=400)
+        
         
         userprofile =  UserProfile.objects.all().filter(user__email=email).first()
         jwt_token = _jwt_to_encode(userprofile.user)

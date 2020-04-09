@@ -97,7 +97,7 @@ class CardViewSet(viewsets.ModelViewSet):
             'msg':'游记卡片修改成功',
         }, status=200)    
 
-    def delete(self, request, *args, **kwargs):
+    def destroy(self, request, *args, **kwargs):
         user = self.request.user
         instance = self.get_object()
         if user.id != instance.userprofile.user.id:

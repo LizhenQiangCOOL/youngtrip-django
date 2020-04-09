@@ -19,12 +19,17 @@ from apps.util.permission import StandardPermission
 class TripViewSet(viewsets.ModelViewSet):
     authentication_classes = (JSONWebTokenAuthentication, )
     permission_classes = (StandardPermission, )
-    queryset = Trip.objects.all()
+    # queryset = Trip.objects.all()
     pagination_class = StandardPagination
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ('userprofile', )
     search_fields = ('title',)
 
+    def get_queryset(self):
+        if self.action in ('retrieve', 'list'):
+            return Trip.objects.all().filter(status='1')
+        else:
+            return Trip.objects.all()
     def get_serializer_class(self):
         if self.action in ('retrieve', 'list'):
             return ReTripSerializer
@@ -87,7 +92,7 @@ class TripViewSet(viewsets.ModelViewSet):
             'msg':'游记修改成功'
         }, status=200)
 
-    def delete(self, request, *args, **kwargs):
+    def destroy(self, request, *args, **kwargs):
         user = self.request.user
         instance = self.get_object()
         if user.id != instance.userprofile.user.id:
@@ -96,6 +101,7 @@ class TripViewSet(viewsets.ModelViewSet):
             }, status=400)
         
         instance.delete()
+        
         return Response({
             'msg':'游记删除成功'
         }, status=200)

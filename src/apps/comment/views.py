@@ -71,9 +71,9 @@ class CommentViewset(mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.Li
             'msg': '评论修改成功'
         }, status=200)
 
-    def delete(self, request, *args, **kwargs):
+    def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
-        instance.destroy()
+        instance.delete()
 
         return Response({
             'msg': '评论删除成功'

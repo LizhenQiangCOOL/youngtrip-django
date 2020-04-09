@@ -4,7 +4,8 @@ from rest_framework import viewsets, mixins, filters
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from apps.file.models import File
-from apps.file.serializer import FileSerializer
+from apps.file.serializers import FileSerializer
+
 
 class FileViewSet(viewsets.ViewSet):
     authentication_classes = (JSONWebTokenAuthentication, )
@@ -37,7 +38,8 @@ class FileViewSet(viewsets.ViewSet):
         ) 
         host = self.request.get_host()
         fileurl = ''.join(('http://', host, '/media/', str(f.file)))
-        print(fileurl)
+        # print(fileurl)
+        # print(f, help(f.file))
         return Response({
             'msg':'上传成功',
             'data':fileurl

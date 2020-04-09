@@ -61,13 +61,13 @@ class FansViewset(mixins.CreateModelMixin,mixins.ListModelMixin, \
             'data': fan.id
         }, status=200)
     
-    def delete(self, request, *args, **kwargs):
+    def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         if not instance.check_id_authuser(self.request.user):
             return Response({
                 'msg':'错误操作'
             }, status=400)
-        instance.destroy()
+        instance.delete()
 
         return Response({
             'msg': '评论删除成功'
