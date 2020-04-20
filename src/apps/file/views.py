@@ -38,8 +38,6 @@ class FileViewSet(viewsets.ViewSet):
         ) 
         host = self.request.get_host()
         fileurl = ''.join(('http://', host, '/media/', str(f.file)))
-        # print(fileurl)
-        # print(f, help(f.file))
         return Response({
             'msg':'上传成功',
             'data':fileurl

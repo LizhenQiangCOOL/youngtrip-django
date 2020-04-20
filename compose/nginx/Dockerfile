@@ -5,8 +5,7 @@ FROM nginx
 RUN rm /etc/nginx/conf.d/default.conf \
 && mkdir -p /usr/share/nginx/html/static \
 && mkdir -p /usr/share/nginx/html/media \
-&& mkdir -p /usr/share/nginx/ssl
-
+&& mkdir -p /usr/share/nginx/ssl 
 # 添加配置文件
 ADD ./nginx.conf /etc/nginx/conf.d/
 ADD ./my.htpasswd /etc/nginx/conf.d/

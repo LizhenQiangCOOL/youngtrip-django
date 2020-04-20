@@ -1,3 +1,4 @@
+client_max_body_size 1024m;
 
 server {
     listen 443 ssl;                                        
@@ -17,8 +18,6 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 } 
-
-
 
 # 线上环境
 server {
@@ -49,6 +48,11 @@ server {
     location /media/ {
         alias /usr/share/nginx/html/media/;  #上传文件路径
     }
+      location ~ \.mp4$ {
+       root /usr/share/nginx/html/;
+       mp4;
+       mp4_buffer_size    10m;
+   }
 } 
 server {
     listen 443 ssl;                                        
