@@ -1,12 +1,10 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
-from apps.card.views import CardViewSet, LikeCardViewSet
+from apps.slide.views import SlideViewSet
 
 router = DefaultRouter()
-router.register('card', CardViewSet, 'card')
-router.register('likecard', LikeCardViewSet, 'likecard')
-
+router.register('slide', SlideViewSet, 'slide')
 
 urlpatterns = [
     path('', include(router.urls)),  

@@ -33,6 +33,10 @@ urlpatterns = [
     path('api/', include('apps.fans.urls')),
     path('api/', include('apps.file.urls')),
     path('api/', include('apps.trip.urls')),
+    path('api/', include('apps.slide.urls')),
+
+    #ckeditor
+    path('ckeditor/', include('ckeditor_uploader.urls')),
 ]
 
 if settings.DEBUG:
