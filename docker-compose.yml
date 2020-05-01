@@ -33,6 +33,18 @@ services:
       - "3306:3306"
     restart: always
 
+  
+  tf:
+    image: tensorflow/serving:latest
+    environment:
+      - MODEL_NAME=nsfw
+    volumes:
+      - ./compose/tensorflow/data/models:/models/nsfw  #训练的模型
+    ports:
+      - "8501:8501"
+      - "8500:8500"
+    restart: always
+
   web:
     build: ./compose/django 
     expose:
@@ -46,10 +58,12 @@ services:
       - rabbit
       - mysql
       - redis
+      - tf
     depends_on:     #先后启动顺序，DJango依赖于db和redis
       - rabbit
       - mysql
       - redis
+      - tf
     restart: always
 
   celery:
@@ -70,17 +84,17 @@ services:
     restart: always
 
   
-  cadvisor:
-    image:  google/cadvisor:latest
-    expose: 
-      - "8080"
-    volumes: 
-      - '/:/rootfs:ro'
-      - '/var/run:/var/run:ro'
-      - '/sys:/sys:ro'
-      - '/var/lib/docker/:/var/lib/docker:ro'
-      - '/dev/disk/:/dev/disk:ro'
-    restart: always 
+  # cadvisor:
+  #   image:  google/cadvisor:latest
+  #   expose: 
+  #     - "8080"
+  #   volumes: 
+  #     - '/:/rootfs:ro'
+  #     - '/var/run:/var/run:ro'
+  #     - '/sys:/sys:ro'
+  #     - '/var/lib/docker/:/var/lib/docker:ro'
+  #     - '/dev/disk/:/dev/disk:ro'
+  #   restart: always 
 
   nginx:
     build: ./compose/nginx
@@ -89,12 +103,10 @@ services:
       - "443:443"
       - "15672:15672"
       - "5555:5555"
-      - "8888:8888"
     expose:
       - "8000"
       - "15672"
       - "5555"
-      - "8080"
     volumes:
       - ./src/static:/usr/share/nginx/html/static     # 挂载静态文件
       - ./src/media:/usr/share/nginx/html/media       # 挂载上传文件
@@ -102,9 +114,7 @@ services:
     links:
       - rabbit
       - web
-      - cadvisor
     depends_on:
       - rabbit
       - web
-      - cadvisor
     restart: always

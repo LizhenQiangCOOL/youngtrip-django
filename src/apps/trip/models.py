@@ -26,5 +26,6 @@ class Trip(models.Model):
         return '<Trip:{}>'.format(self.id)
     
     class Meta:
+        db_table = "trip"
         verbose_name = verbose_name_plural = "游记"
         ordering = ['-createtime']

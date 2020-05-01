@@ -14,6 +14,6 @@ ENV DB_ENGINE='mysql' \
 
 COPY ./requirements.txt /app
 
-RUN pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple/
+RUN pip install -r requirements.txt -i https://pypi.doubanio.com/simple/ 
 
 CMD bash

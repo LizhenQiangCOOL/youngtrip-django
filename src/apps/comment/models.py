@@ -13,4 +13,5 @@ class Comment(models.Model):
         return '<Comment:{}>:'.format(self.id)
     
     class Meta:
+        db_table = "comment"
         verbose_name = verbose_name_plural = '评论'

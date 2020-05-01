@@ -28,6 +28,7 @@ class Card(models.Model):
         return '<Card:{}>'.format(self.id)
 
     class Meta:
+        db_table = "card"
         verbose_name = verbose_name_plural = "游记卡片"
         ordering = ['-createtime']
         

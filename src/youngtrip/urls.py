@@ -18,14 +18,19 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from rest_framework.documentation import include_docs_urls
 
-from django.views.decorators.csrf import csrf_protect  
 from youngtrip import settings
 
 from apps.account.views import IndexView
 
+#修改一下后台管理系统名称
+admin.site.site_header = '青年游记'
+admin.site.site_title = '青年游记管理后台'
+admin.site.index_title = '首页'
+
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     path('admin/', admin.site.urls),
+
     path('api/account/', include('apps.account.urls')),
     path('api/', include('apps.card.urls')),
     path('api/', include('apps.comment.urls')),

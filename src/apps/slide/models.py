@@ -12,8 +12,8 @@ def slide_pic_path(instance, filename):
     return filename
 
 class Slide(models.Model):
-    pic = models.ImageField(upload_to=slide_pic_path,null=True, blank=True, help_text='图片', verbose_name='图片')
-    content = RichTextUploadingField(null=True, blank=True, help_text='幻灯片内容', verbose_name='幻灯片内容')
+    pic = models.ImageField(upload_to=slide_pic_path,null=False, blank=False,default='', help_text='图片', verbose_name='图片')
+    content = RichTextUploadingField(null=True, blank=True, help_text='轮播图内容', verbose_name='轮播图内容')
     remark = models.CharField(max_length=50, null=True, blank=True, help_text='备注', verbose_name='备注')
     createtime = models.DateTimeField(auto_now_add=True, help_text='创建时间', verbose_name='创建时间')
     updatetime = models.DateTimeField(auto_now=True, help_text='更新时间', verbose_name='更新时间')
@@ -22,5 +22,6 @@ class Slide(models.Model):
         return '<Slide:{}>'.format(self.id)
 
     class Meta:
-        verbose_name = verbose_name_plural = "幻灯片"
+        db_table = "slide"
+        verbose_name = verbose_name_plural = "轮播图"
         ordering = ['-createtime']

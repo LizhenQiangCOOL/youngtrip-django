@@ -7,3 +7,5 @@ class UserProfileAdmin(admin.ModelAdmin):
     list_editable = ('avatar', 'sex', 'sign', 'user')
     search_fields = ()
     list_filter = ('sex', )
+
+

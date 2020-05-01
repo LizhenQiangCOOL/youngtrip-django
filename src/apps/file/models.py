@@ -23,4 +23,5 @@ class File(models.Model):
         return '<File:{}>'.format(self.id)
     
     class Meta:
+        db_table = "file"
         verbose_name = verbose_name_plural = "文件"

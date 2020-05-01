@@ -1,23 +1,23 @@
 client_max_body_size 1024m;
 
-server {
-    listen 443 ssl;                                        
-    server_name cadv.xn--m83a.top;                             
-    ssl_certificate /usr/share/nginx/ssl/cadv.xn--m83a.top/fullchain.pem;    
-    ssl_certificate_key  /usr/share/nginx/ssl/cadv.xn--m83a.top/privkey.pem;  
-    ssl_session_timeout 5m;
-    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;  
-    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;                  
-    ssl_prefer_server_ciphers on;   
-     auth_basic "Restricted Access";
-     auth_basic_user_file /etc/nginx/conf.d/my.htpasswd;
-    location / {
-        proxy_pass http://cadvisor:8080;                        
-        proxy_set_header Host $host;
-        proxy_redirect off;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    }
-} 
+# server {
+#     listen 443 ssl;                                        
+#     server_name cadv.xn--m83a.top;                             
+#     ssl_certificate /usr/share/nginx/ssl/cadv.xn--m83a.top/fullchain.pem;    
+#     ssl_certificate_key  /usr/share/nginx/ssl/cadv.xn--m83a.top/privkey.pem;  
+#     ssl_session_timeout 5m;
+#     ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;  
+#     ssl_protocols TLSv1 TLSv1.1 TLSv1.2;                  
+#     ssl_prefer_server_ciphers on;   
+#      auth_basic "Restricted Access";
+#      auth_basic_user_file /etc/nginx/conf.d/my.htpasswd;
+#     location / {
+#         proxy_pass http://cadvisor:8080;                        
+#         proxy_set_header Host $host;
+#         proxy_redirect off;
+#         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+#     }
+# } 
 
 # 线上环境
 server {

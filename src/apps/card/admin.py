@@ -7,3 +7,4 @@ class CardAdmin(admin.ModelAdmin):
     list_editable = ( 'pic', 'content', 'date', 'location', 'trip', 'userprofile')
     search_fields = ('content', 'location')
     list_filter = ('trip', 'userprofile', 'date')
+

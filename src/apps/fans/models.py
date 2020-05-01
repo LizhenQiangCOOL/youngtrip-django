@@ -17,5 +17,6 @@ class Fans(models.Model):
         return (user.id == self.follower.user.id) and (user.id != self.followee.user.id)
     
     class Meta:
+        db_table = "fans"
         verbose_name = verbose_name_plural = "粉丝"
         unique_together = (('follower','followee'),)

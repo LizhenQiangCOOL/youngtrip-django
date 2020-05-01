@@ -5,6 +5,7 @@
 # djangorestframework Rest接口
 # djangorestframework-jwt jwt验证包
 # djangorestframework-simplejwt jwt验证包
+# django-ckeditor 富文本编辑
 Django==2.2.12                            
 django-filter==2.2.0    
 django-cors-headers==3.2.1  
@@ -12,8 +13,9 @@ django-rest-swagger==2.2.0
 djangorestframework==3.11.0
 djangorestframework-jwt==1.11.0
 djangorestframework-simplejwt==4.4.0
+django-ckeditor==5.9.0
 
-# ASGI websocket
+# ASGI websocket 
 channels==2.4.0
 
 # mysqlclient　连接mysql数据库
@@ -44,3 +46,4 @@ gevent==1.4.0
 
 # img
 pillow==7.0.0
+numpy

@@ -14,5 +14,6 @@ class Like(models.Model):
         return user.id == self.userprofile.user.id
     
     class Meta:
+        db_table = "like"
         verbose_name = verbose_name_plural = "喜欢"
         unique_together = (('card','userprofile'),)
