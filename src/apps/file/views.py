@@ -42,9 +42,10 @@ class FileViewSet(viewsets.ViewSet):
         if f.type == 'img':
             imgpath = os.path.join(MEDIA_ROOT ,str(f.file))
             res = handle_img(imgpath)
-            print(res)
             if res['classes'] == 'porn':
                 f.delete()
+                if os.path.exists(imgpath):
+                    os.remove(imgpath)
                 return Response({
                     'msg':'请不要上传不雅图片',
                 }, status=400)
