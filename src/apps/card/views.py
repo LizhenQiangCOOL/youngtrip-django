@@ -63,7 +63,7 @@ class CardViewSet(viewsets.ModelViewSet):
         )
         return Response({
             'msg':'游记卡片创建成功',
-            'data':{'id':card.id, 'pic':card.pic},
+            'data':{'id':card.id, 'pic':card.pic, 'content':card.content},
         }, status=200)
     
     def update(self, request, *args, **kwargs):

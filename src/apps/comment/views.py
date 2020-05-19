@@ -54,6 +54,9 @@ class CommentViewset(mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.Li
             userprofile=userprofile,
             content=content,
         )
+        trip = card.trip
+        trip.commentcount += 1
+        trip.save()
         serializer = self.get_serializer(comment)
         return Response({
             'msg':'评论成功',
@@ -73,6 +76,9 @@ class CommentViewset(mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.Li
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
+        trip = instance.card.trip
+        trip.commentcount -= 1
+        trip.save()
         instance.delete()
 
         return Response({
